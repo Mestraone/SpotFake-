@@ -1,9 +1,30 @@
 const songName = document.getElementById('song-name');
+const bandName = document.getElementById('band-name');
+const capa = document.getElementById('capa');
 const song = document.getElementById('audio');
 const play = document.getElementById('play');
+const next = document.getElementById('next');
+const previous = document.getElementById('previous');
 
-songName.innerText = 'Osaka';
-let isPlaying = false;
+const japa = {
+    songName : 'Osaka',
+    artist : 'Japa',
+    file: 'japa'
+};
+const bmth = {
+    songName : 'Croocked Young',
+    artist : 'Bring Me The Horizon',
+    file: 'bmth'
+};
+const fresno = {
+    songName : 'Sua Alegria Foi Cancelada',
+    artist : 'Fresno',
+    file: 'fresno'
+};
+let isPlaying = false; 
+const playlist = [japa, bmth, fresno];
+let index = 0;
+
 
 function playSong(){
     play.querySelector('.bi').classList.remove('bi-play-circle-fill');
@@ -30,4 +51,40 @@ function playPauseDecider(){
     }
 }
 
+function initializeSong(){
+    capa.src =`images/${playlist[index].file}.jpg`;
+    song.src =`songs/${playlist[index].file}.mp3`;
+    songName.innerText = playlist[index].songName;
+    bandName.innerText = playlist[index].artist;
+}
+
+function previousSong(){
+    if(index === 0){
+    index = playlist.length - 1;
+    }
+    else {
+        index -= 1;
+    }
+    initializeSong();
+    playSong();
+    
+}
+
+function nextSong(){
+    if(index === playlist.length - 1){
+    index = 0;
+    }
+    else {
+        index += 1;
+    }
+    initializeSong();
+    playSong();
+    
+}
+
+initializeSong();
+
 play.addEventListener('click', playPauseDecider);
+previous.addEventListener('click', previousSong);
+next.addEventListener('click', nextSong);
+
